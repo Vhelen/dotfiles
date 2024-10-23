@@ -1,0 +1,41 @@
+# Update
+alias update-and-clean='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt clean -y && sudo apt purge -y'
+
+# Move fast
+alias dl='cd ~/Downloads'
+alias tools='cd ~/tools'
+alias docs='cd ~/Documents'
+alias utils='cd /opt/utils'
+alias dirtmp='cd $(mktemp -d)'
+
+# Tools
+alias c='code .'
+alias p='python3'
+alias python='python3'
+alias cr='cargo run'
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+
+# Infos
+alias ipa='ip -br a | grep -vF DOWN | cut -d/ -f1'
+alias get-ip='curl -sS ipinfo.io'
+alias show-open-ports="sudo ss -latepun | grep -i listen"
+alias get-pid-ps='ps fauxw | fzf | awk "{ print \$2}"'
+
+# Python server
+alias pserv='python3 -m http.server'
+
+# Docker Utils, from lalubuntu -> https://github.com/laluka/lalubuntu
+alias docker-norestart='docker update --restart=no $(docker ps -q)'
+alias docker-stopall='docker stop $(docker ps -q)'
+alias docker-get-image-size='f(){ docker manifest inspect -v "$1" | jq -c "if type == \"array\" then .[] else . end" |  jq -r "[ ( .Descriptor.platform | [ .os, .architecture, .variant, .\"os.version\" ] | del(..|nulls) | join(\"/\") ), ( [ .SchemaV2Manifest.layers[].size ] | add ) ] | join(\" \")" | numfmt --to iec --format "%.2f" --field 2 | column -t ;  unset -f f; }; f'
+alias dockex='docker exec -it $(docker ps | grep -vF "CONTAINER ID" | fzf | cut -d" " -f1)'
+alias dockit='docker run --rm -it -v "$PWD":/host --net=host'
+alias wipe-docker-all='docker system prune -a -f --volumes'
+alias wipe-docker-image='docker rmi -f $(docker images -q)'
+alias wipe-docker-network='docker network rm $(docker network ls -q | tr "\n" " ")'
+alias wipe-docker-process='docker rm $(docker ps -a -q)'
+alias wipe-docker-volume='docker volume rm $(docker volume ls -q | tr "\n" " ")'
+
+# Tools
+alias cmsmap='~/tools/cmsmap/cmsmap.py'
+alias fuxploider='~/tools/fuxploider/fuxploider.py'
